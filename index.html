@@ -28,12 +28,10 @@
         }
         
         .hide-select-priority {
-            display: block;
-        }
-        
-        .hide-prior-date {
             display: none;
         }
+        
+        .hide-prior-date {}
     </style>
     <title>LogicPart</title>
 </head>
@@ -48,7 +46,10 @@
                         <i class="fas fa-filter"></i>
                     </button>
                     <div class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton">
-                        You should add filters here
+                        <a id="filter-full" class="dropdown-item" href="#">Full List</a>
+                        <a id="filter-high" class="dropdown-item" href="#">High</a>
+                        <a id="filter-medium" class="dropdown-item" href="#">Medium</a>
+                        <a id="filter-low" class="dropdown-item" href="#">Low</a>
                     </div>
                 </div>
                 <button type="button" class="btn btn-primary mx-2"><i class="fas fa-sort-numeric-up-alt"></i></button>
@@ -71,37 +72,33 @@
         </nav>
         <div class="row justify-content-center">
             <div class="col-10">
-                <h3 class="my-2">ToDo</h3>
+                <h3 class="my-2" id="current-tasks-title">ToDo</h3>
                 <ul class="list-group flex-wrap justify-content-between to-do-list" id="currentTasks">
                     <li class="list-group-item d-flex w-100 mb-2 to-do-task" id="0">
                         <div class="w-100 mr-2">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1 task-title">Title</h5>
-                                <div>
-                                    <small class="mr-2 hide-prior-date">High priority</small>
-                                    <small class="hide-prior-date">11:00 01.01.2000</small>
-                                    <div class="dropdown hide-select-priority select-priority">
-                                        <button type="button" class="btn btn-outline-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <small>Select priority</small></button>
-
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-priority">
-
-                                            <button class="dropdown-item" type="button" value="Hight Priority" id="edit-hight">Hight
-                                                Priority</button>
-
-
-                                            <button class="dropdown-item" type="button" value="Medium Priority" id="edit-medium">Medium
-                                                Priority</button>
-
-
-                                            <button class="dropdown-item" type="button" value="Low Priority" id="edit-low">Low
-                                                Priority</button>
-
-                                        </div>
-                                    </div>
+                                <div class="hide-prior-date">
+                                    <small class="mr-2 priority">High Priority</small>
+                                    <small>11:00 01.01.2000</small>
                                 </div>
-
+                                <div class="dropdown hide-select-priority select-priority">
+                                    <button type="button" class="btn btn-outline-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <small>Select Priority</small></button>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-priority">
+                                        <li class="dropdown-input"><label><input id="edit-high" type="radio"
+                                                    value="High" name="Priority"> High Priority
+                                            </label></li>
+                                        <li class="dropdown-input"><label><input id="edit-medium" type="radio"
+                                                    value="Medium" name="Priority"> Medium Priority
+                                            </label></li>
+                                        <li class="dropdown-input"><label><input id="edit-low" type="radio" value="Low"
+                                                    name="Priority">
+                                                Low Priority
+                                            </label></li>
+                                    </ul>
+                                </div>
                             </div>
                             <p class="mb-1 w-100 task-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci aliquid eaque eligendi error eveniet nostrum nulla pariatur repudiandae, veniam. Provident.
                             </p>
@@ -123,7 +120,7 @@
                     </li>
                 </ul>
                 <hr>
-                <h3 class="my-2">Comleted</h3>
+                <h3 class="my-2" id="completed-tasks-title">Comleted</h3>
                 <ul class="list-group flex-wrap justify-content-between completed-list" id="completedTasks">
                 </ul>
             </div>
