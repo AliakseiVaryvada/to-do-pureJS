@@ -36,6 +36,10 @@
         }
         
         .hide-prior-date {}
+        
+        .group-list {
+            cursor: pointer;
+        }
     </style>
     <title>LogicPart</title>
 </head>
@@ -71,7 +75,13 @@
                         <i class="fas fa-cog"></i>
                     </button>
                     <div class="dropdown-menu p-2 dropdown-menu-right" aria-labelledby="dropdownMenuSettings">
-                        You should add settings here
+                        <!--TILE/LINE SWITCH-->
+                        <a class="p-2 bd-highlight group-list" id="tile-btn">
+                            <i class="fas fa-th"></i>
+                        </a>
+                        <a class="p-2 bd-highlight group-list" id="list-btn">
+                            <i class="fas fa-align-justify"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -79,8 +89,8 @@
         <div class="row justify-content-center">
             <div class="col-10">
                 <h3 class="my-2" id="current-tasks-title">ToDo</h3>
-                <ul class="list-group flex-wrap justify-content-between to-do-list" id="currentTasks">
-                    <li class="list-group-item d-flex w-100 mb-2 to-do-task" id="0">
+                <ul class="list-group flex-wrap justify-content-between to-do-list " id="currentTasks">
+                    <li class="list-group-item d-flex w-100 mb-2 to-do-task completed" id="0">
                         <div class="w-100 mr-2">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1 task-title">Title</h5>

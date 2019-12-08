@@ -9,6 +9,10 @@ var filterLow = document.getElementById('filter-low');
 var filterFull = document.getElementById('filter-full');
 var lToHSort = document.getElementById('h-l-sort');
 var hToLSort = document.getElementById('l-h-sort');
+
+var toLine = document.getElementById('list-btn');
+var toTile = document.getElementById('tile-btn');
+
 var index = 0;
 var editId;
 
@@ -75,6 +79,39 @@ function filterTasksByPriority(priority) {
         }
     }
 }
+
+
+toLine.addEventListener("click", function(event) {
+    var block = document.querySelectorAll("li.d-flex");
+    console.log(block);
+
+    document.getElementById('currentTasks').style.flexDirection = 'column';
+    document.getElementById('completedTasks').style.flexDirection = 'column';
+
+
+    for (i = 0; i < block.length; i++) {
+        document.querySelectorAll("li.d-flex")[i].classList.add('w-100');
+        document.querySelectorAll("li.d-flex")[i].style.width = '100%';
+        document.querySelectorAll("li.d-flex")[i].style.justifyContent = 'space-between';
+        document.querySelectorAll(".task-text")[i].style.display = '';
+    }
+});
+
+toTile.addEventListener("click", function(event) {
+    var block = document.querySelectorAll("li.d-flex");
+    console.log(block);
+
+    document.getElementById('currentTasks').style.flexDirection = 'row';
+    document.getElementById('completedTasks').style.flexDirection = 'row';
+
+
+    for (i = 0; i < block.length; i++) {
+        document.querySelectorAll("li.d-flex")[i].classList.remove('w-100');
+        document.querySelectorAll("li.d-flex")[i].style.width = '30%';
+        document.querySelectorAll("li.d-flex")[i].style.justifyContent = 'space-between';
+        document.querySelectorAll(".task-text")[i].style.display = 'none';
+    }
+});
 
 
 filterHigh.addEventListener("click", function(event) {
@@ -150,6 +187,7 @@ todoList.addEventListener("click", function(event) {
         event.target.closest('li').remove() //удаляем 
         countCurrentTasks();
         countCompletedTasks();
+
     } else if (event.target.matches('.task-complete')) { //кнопка выполнено?
         var nearestTask = event.target.closest('li'); //берем элемент на который произошло нажтие
         var isComplete = nearestTask.classList.contains('completed'); // проверяем есть ли у него класс выполнено
@@ -162,6 +200,7 @@ todoList.addEventListener("click", function(event) {
         completedList.appendChild(nearestTask);
 
         nearestTask.classList.remove('completed'); //удаляем этот класс у элемента
+
         if (!isComplete) { //если класса "выполнено" нет, то дописываем его и возращаем таск обратно в туду
             nearestTask.classList.add('completed');
             todoList.appendChild(nearestTask);
@@ -212,12 +251,13 @@ todoList.addEventListener("click", function(event) {
         console.log(mediumPriority);
         var highPriority = element.getElementsByClassName('edit-high')[0];
         console.log(highPriority);
-        var priority = 'qwertty';
+        var priority = '';
         console.log(priority + '!!!');
 
         lowPriority.checked ? priority = 'Low Priority' :
             (mediumPriority.checked ? priority = 'Medium Priority' :
-                (highPriority.checked ? priority = 'High Priority' : null));
+                (highPriority.checked ? priority = 'High Priority' :
+                    priority = element.getElementsByClassName('priority')[0].innerHTML));
 
         console.log(priority);
 
@@ -285,6 +325,8 @@ add.addEventListener("click", function(e) {
     addListItem.classList.add('d-flex');
     addListItem.classList.add('w-100');
     addListItem.classList.add('mb-2');
+    addListItem.classList.add('completed');
+
 
     addListItem.innerHTML = '<div class="w-100 mr-2">' +
         '<div class="d-flex w-100 justify-content-between">' +
