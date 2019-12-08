@@ -432,7 +432,14 @@ todoList.addEventListener("click", function(event) {
 
 // event for move task in complete list
 completedList.addEventListener("click", function(event) {
-    if (event.target.matches('.task-complete')) {
+    if (event.target.matches('.remove')) {
+        var nearestTask = event.target.closest('li');
+        //delete from localStorage and list
+        event.target.closest('li').remove()
+
+        countCurrentTasks();
+        countCompletedTasks();
+    } else if (event.target.matches('.task-complete')) {
 
         // get element
         var nearestTask = event.target.closest('li');
