@@ -2,7 +2,6 @@
 FLAWS:
     -save button does not always work the first time
     -local storage does not work with completed tasks
-    -local storage does not save tasks after editing
 */
 
 var todoList = document.querySelector(".to-do-list"); // all task list
@@ -410,7 +409,18 @@ todoList.addEventListener("click", function(event) {
                 (highPriority.checked ? priority = 'High Priority' :
                     priority = element.getElementsByClassName('priority')[0].innerHTML));
 
+        let obj = new MakeObj(element.id,
+            element.querySelector('.task-title').innerHTML,
+            element.querySelector('.task-text').innerHTML,
+            window.getComputedStyle(document.getElementById(element.id), null).backgroundColor,
+            element.querySelector('.priority').innerHTML,
+            element.querySelector('.task-date').innerHTML);
+
+        localStorage.setItem(element.id, JSON.stringify(obj));
+        console.log(obj);
         console.log(priority);
+
+
 
         //return style to normal mode
         element.querySelector('.priority').innerHTML = priority;
