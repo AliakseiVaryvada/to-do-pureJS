@@ -7,7 +7,10 @@ var filterHigh = document.getElementById('filter-high');
 var filterMedium = document.getElementById('filter-medium');
 var filterLow = document.getElementById('filter-low');
 var filterFull = document.getElementById('filter-full');
+var lToHSort = document.getElementById('h-l-sort');
+var hToLSort = document.getElementById('l-h-sort');
 var index = 0;
+var editId;
 
 
 
@@ -89,12 +92,52 @@ filterLow.addEventListener("click", function(event) {
     filterTasksByPriority('Low Priority');
 });
 
+
 filterFull.addEventListener("click", function(event) {
     allTasks = document.getElementsByTagName('li').length;
     li = document.getElementsByTagName('li');
     for (i = 0; i < allTasks; i = i + 4) {
         li[i].classList.add('d-flex');
 
+    }
+});
+
+
+hToLSort.addEventListener("click", function(event) {
+    var list = document.getElementsByClassName('to-do-task');
+    var container = document.getElementById('currentTasks');
+    var tasks = Array.prototype.slice.call(list);
+    tasks.sort(function(a, b) {
+        if (moment(a.querySelector('.task-date').innerHTML, 'HH:mm MM-DD-YYYY').toDate() > moment(b.querySelector('.task-date').innerHTML, 'HH:mm MM-DD-YYYY').toDate()) {
+            return 1;
+        }
+        if (moment(a.querySelector('.task-date').innerHTML, 'HH:mm MM-DD-YYYY').toDate() < moment(b.querySelector('.task-date').innerHTML, 'HH:mm MM-DD-YYYY').toDate()) {
+            return -1;
+        }
+        return 0;
+    })
+    for (var i = 0; i < tasks.length; i++) {
+        container.appendChild(tasks[i]);
+    }
+});
+
+
+
+lToHSort.addEventListener("click", function(event) {
+    var list = document.getElementsByClassName('to-do-task');
+    var container = document.getElementById('currentTasks');
+    var tasks = Array.prototype.slice.call(list);
+    tasks.sort(function(a, b) {
+        if (moment(a.querySelector('.task-date').innerHTML, 'HH:mm MM-DD-YYYY').toDate() < moment(b.querySelector('.task-date').innerHTML, 'HH:mm MM-DD-YYYY').toDate()) {
+            return 1;
+        }
+        if (moment(a.querySelector('.task-date').innerHTML, 'HH:mm MM-DD-YYYY').toDate() > moment(b.querySelector('.task-date').innerHTML, 'HH:mm MM-DD-YYYY').toDate()) {
+            return -1;
+        }
+        return 0;
+    })
+    for (var i = 0; i < tasks.length; i++) {
+        container.appendChild(tasks[i]);
     }
 });
 
@@ -142,26 +185,32 @@ todoList.addEventListener("click", function(event) {
 
         element.querySelector('.hide-prior-date').style.display = 'none';
         element.querySelector('.hide-select-priority').style.display = 'block';
+        element.querySelector('.custom-background-color').style.display = 'block';
+
 
 
         element.querySelector('.task-title').classList.add('edit-change-color');
         element.querySelector('.task-text').classList.add('edit-change-color');
 
+        editId = element.id;
+        console.log(editId + 'old');
+
         // element.querySelector('.priority')
-
-
-
-
     } else if (event.target.matches('.save-after-edit')) {
-        var editListItem = event.target.closest('li'); //берем элемент списка
-        var element = document.getElementById(editListItem.id);
+        console.log(editId);
+        //var editListItem = event.target.closest('li'); //берем элемент списка
+        var element = document.getElementById(editId);
+
+        var taskBackgroundEdit = element.getElementsByClassName('color-picker')[0];
+        element.style.background = taskBackgroundEdit.value;
+
         console.log(element.id);
         console.log(element.querySelector('.priority'));
-        var lowPriority = document.getElementById('edit-low'); //берем приоритет
+        var lowPriority = element.getElementsByClassName('edit-low')[0]; //берем приоритет
         console.log(lowPriority);
-        var mediumPriority = document.getElementById('edit-medium');
+        var mediumPriority = element.getElementsByClassName('edit-medium')[0];
         console.log(mediumPriority);
-        var highPriority = document.getElementById('edit-high');
+        var highPriority = element.getElementsByClassName('edit-high')[0];
         console.log(highPriority);
         var priority = 'qwertty';
         console.log(priority + '!!!');
@@ -182,13 +231,16 @@ todoList.addEventListener("click", function(event) {
 
         element.querySelector('.hide-prior-date').style.display = 'block';
         element.querySelector('.hide-select-priority').style.display = 'none';
+        element.querySelector('.custom-background-color').style.display = 'none';
 
         element.querySelector('.task-title').classList.remove('edit-change-color');
         element.querySelector('.task-text').classList.remove('edit-change-color');
 
     }
-
 });
+
+
+
 
 completedList.addEventListener("click", function(event) {
     if (event.target.matches('.task-complete')) {
@@ -213,7 +265,7 @@ add.addEventListener("click", function(e) {
     addListItem.setAttribute("id", index);
     var taskTitle = document.getElementById('inputTitle'); //берем из формы название
     var taskText = document.getElementById('inputText'); //берем текст из поля
-
+    var taskBackground = document.getElementById('taskBackground');
     var lowPriority = document.getElementById('Low') //берем приоритет
     var mediumPriority = document.getElementById('Medium')
     var highPriority = document.getElementById('High')
@@ -228,7 +280,7 @@ add.addEventListener("click", function(e) {
 
     todoList.appendChild(addListItem);
 
-    //addListItem.classList.add('to-do-task'); //добовляем классы к новому листу
+    addListItem.classList.add('to-do-task'); //добовляем классы к новому листу
     addListItem.classList.add('list-group-item');
     addListItem.classList.add('d-flex');
     addListItem.classList.add('w-100');
@@ -246,19 +298,27 @@ add.addEventListener("click", function(e) {
         '<small>Select priority</small></button>' +
         '</button>' +
         '<ul class="dropdown-menu dropdown-menu-priority">' +
-        '<li class="dropdown-input"><label><input id="edit-high" type="radio" value="High" name="Priority"> High Priority' +
+        '<li class="dropdown-input"><label><input class="edit-high" id="edit-high" type="radio" value="High" name="Priority"> High Priority' +
         '</label></li>' +
-        '<li class="dropdown-input"><label><input id="edit-medium" type="radio" value="Medium" name="Priority"> Medium Priority' +
+        '<li class="dropdown-input"><label><input class="edit-medium" id="edit-medium" type="radio" value="Medium" name="Priority"> Medium Priority' +
         '</label></li>' +
-        '<li class="dropdown-input"><label><input id="edit-low" type="radio" value="Low" name="Priority">Low Priority' +
+        '<li class="dropdown-input"><label><input class="edit-low" id="edit-low" type="radio" value="Low" name="Priority">Low Priority' +
         ' </label></li>' +
         '</ul>' +
+        '</div>' +
+        '<div class="dropdown custom-background-color">' +
+        '<button type="button" class="btn btn-outline-success btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+        '<small>Select Color</small></button>' +
+        '</button>' +
+        '<div class="dropdown-menu">' +
+        '<input type="color" class="form-control mr-2 color-picker" id="taskBackgroundEdit" name="taskBackgroundEdit" value="#CBF7BC">' +
+        '</div>' +
         '</div>' +
         '</div>' +
         '<p class="mb-1 w-100 task-text"></p>' +
         '</div>' +
         '<div class="dropdown m-2 dropleft">' +
-        '<button class=" btn btn-success h-100 save-after-edit">' +
+        '<button class=" btn btn-success h-100 save-after-edit" id= "save">' +
         '<p class="save-text">SAVE</p>' +
         '</button>' +
         '<button class="btn btn-secondary h-100 hide-dropdown" type="button" id="dropdownMenuItem1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
@@ -278,6 +338,7 @@ add.addEventListener("click", function(e) {
     //taskTitle.value = '';
     //addListItem.querySelector('.task-date').appendChild(document.createTextNode(taskDate));
     //taskTitle.value = '';
+    document.getElementById(index).style.background = taskBackground.value;
     countCurrentTasks();
     countCompletedTasks();
 });
