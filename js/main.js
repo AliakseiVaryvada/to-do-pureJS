@@ -13,6 +13,9 @@ var hToLSort = document.getElementById('l-h-sort');
 var toLine = document.getElementById('list-btn');
 var toTile = document.getElementById('tile-btn');
 
+var nightMode = document.getElementById('night-switch');
+
+
 var index = 0;
 var editId;
 
@@ -79,6 +82,39 @@ function filterTasksByPriority(priority) {
         }
     }
 }
+
+nightMode.addEventListener("click", function(event) {
+    if (nightMode.checked == true) {
+        document.getElementsByClassName('wrapper')[0].style.background = '#163453f2';
+        document.getElementsByClassName('wrapper')[0].style.margin = '0px';
+        document.getElementsByClassName('modal-body')[0].style.background = '#163453f2';
+        document.getElementsByClassName('modal-header')[0].style.background = '#163453f2';
+        document.getElementsByClassName('modal-body')[0].style.color = '#b0deff';
+        document.getElementsByClassName('modal-header')[0].style.color = '#b0deff';
+        document.querySelectorAll('.bg-light')[0].classList.remove('bg-light');
+        document.getElementsByClassName('navbar')[0].style.background = '#163453f2';
+        document.getElementsByClassName('navbar')[0].style.color = '#b0deff';
+        document.querySelectorAll('h3')[0].style.color = '#b0deff';
+        document.querySelectorAll('h3')[1].style.color = '#b0deff';
+        document.querySelectorAll('h3')[2].style.color = '#b0deff';
+        document.querySelectorAll('h3')[3].style.color = '#b0deff';
+    }
+    if (nightMode.checked == false) {
+        document.getElementsByClassName('wrapper')[0].style.background = 'white';
+        document.getElementsByClassName('wrapper')[0].style.margin = '15px';
+        document.getElementsByClassName('modal-body')[0].style.background = 'white';
+        document.getElementsByClassName('modal-header')[0].style.background = 'white';
+        document.getElementsByClassName('modal-body')[0].style.color = 'black';
+        document.getElementsByClassName('modal-header')[0].style.color = 'black';
+        document.querySelectorAll('.navbar')[0].classList.add('bg-light');
+        document.getElementsByClassName('navbar')[0].style.background = 'white';
+        document.getElementsByClassName('navbar')[0].style.color = 'black';
+        document.querySelectorAll('h3')[0].style.color = 'black';
+        document.querySelectorAll('h3')[1].style.color = 'black';
+        document.querySelectorAll('h3')[2].style.color = 'black';
+        document.querySelectorAll('h3')[3].style.color = 'black';
+    }
+});
 
 
 toLine.addEventListener("click", function(event) {
